@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./greeter.js"></script>
+    <script type="text/javascript">
+      var ws = new WebSocket("ws://192.168.21.93:8080/");
+
+      ws.onopen = function () {
+        alert("Opened");
+        ws.send("I'm client");
+      };
+
+      ws.onmessage = function (evt) {
+        setMessageInnerHTML(event.data);
+      };
+      //将消息显示在网页上
+      function setMessageInnerHTML(innerHTML) {
+        document.getElementById("haha").innerHTML += innerHTML + "<br/>";
+      }
+      ws.onclose = function () {
+        alert("Closed");
+      };
+
+      ws.onerror = function (err) {
+        alert("Error: " + err);
+      };
+      function send() {
+        var message = document.getElementById("massage").value;
+        console.log(message);
+        ws.send(message);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="text"></div>
+    <div>
+      <input type="text" id="massage" />
+      <button onclick="send()">发送</button>
+      <div id="haha"></div>
+    </div>
+  </body>
+</html>
